@@ -1,0 +1,272 @@
+require('dotenv').config()
+const express = require('express')
+const app = express()
+let port = process.env.PORT || 3000
+const bodyParser = require('body-parser')
+const helmet = require("helmet");
+<<<<<<< HEAD
+=======
+
+>>>>>>> 75ddc1029c79ebbc1e5f8f70ee3534f50cb35610
+
+const bogBridge = require("./functions/bogBridge");
+
+const swaggerUI = require("swagger-ui-express");
+const swaggerJsDoc=require("swagger-jsdoc");
+<<<<<<< HEAD
+=======
+
+var cors = require('cors')
+const crypto = require('crypto');
+
+function encrypt (text, key) {
+    try {
+      const IV_LENGTH = 16 // For AES, this is always 16
+      let iv = crypto.randomBytes(IV_LENGTH)
+      let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv)
+      let encrypted = cipher.update(text)
+  
+      encrypted = Buffer.concat([encrypted, cipher.final()])
+  
+      return iv.toString('hex') + ':' + encrypted.toString('hex')
+    } catch (err) {
+      throw err
+    }
+}
+  
+function decrypt (text, key) {
+    try {
+      let textParts = text.split(':')
+      let iv = Buffer.from(textParts.shift(), 'hex')
+      let encryptedText = Buffer.from(textParts.join(':'), 'hex')
+      let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), iv)
+      let decrypted = decipher.update(encryptedText)
+  
+      decrypted = Buffer.concat([decrypted, decipher.final()])
+  
+      return decrypted.toString()
+    } catch (err) {
+      throw err
+    }
+}
+  
+  // var password = "mynameispaulmowat"
+  // var key = "YFpoGQ@$VrUMf64tZ9eg^RiaQSZ^Pw%*"
+  
+  // var encrypted = encrypt(password, key)
+  // var decrypted = decrypt("EC30EFE238CF43D190B0A36819D86085:1950D036C49698CE6C24C644D16AFA2B", key)
+  
+  // console.log('Original: ' + password)
+  // console.log('Encrypted: ' + encrypted)
+  // console.log('Decrypted: ' + decrypted)
+
+>>>>>>> 75ddc1029c79ebbc1e5f8f70ee3534f50cb35610
+
+app.use(bodyParser.json());
+app.use(helmet());
+
+var whitelist = ['https://bog-test.miracledev.net/']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+const options = {
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "Battle of Guardian",
+            version: "1.0.0",
+            description: "A simple Express Library API",
+        },
+        servers: [
+            {
+                url: "http://localhost:3000",
+            },
+        ],
+        components:{
+            securitySchemes: {
+                bearerAuth: {
+                  type: "http",
+                  scheme: "bearer",
+                  bearerFormat: "JWT",
+                },
+            },
+        },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
+  },
+    apis: ["./index.js"],
+};
+
+const specs = swaggerJsDoc(options);
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Test:
+ *       type: object
+ *       required:
+ *         - title
+ *         - author
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: The auto-generated id of the book
+ *         title:
+ *           type: string
+ *           description: The book title
+ *         author:
+ *           type: string
+ *           description: The book author
+ *       example:
+ *         id: d5fE_asz
+ *         title: The New Turing Omnibus
+ *         author: Alexander K. Dewdney
+
+ *     Send Reward:
+ *       type: object
+ *       required:
+ *         - recepientAddress
+ *         - amount
+ *       properties:
+ *         recepientAddress:
+ *           type: string
+ *           description: the walletAddress of the player
+ *         amount:
+ *           type: string
+ *           description: the amount of token that will be sent
+ *       example:
+ *         recepientAddress: "0xBCD69146f2111cDd4e4E586B29322b39963474e0"
+ *         amount: "1"
+
+ *     Check Join Room:
+ *       type: object
+ *       required:
+ *         - tourId
+ *         - playerId
+ *         - char
+ *         - walletAddress
+ *         - championshipPoint
+
+ *       properties:
+ *         tourId:
+ *           type: string
+ *           description: ID of the tournament that will be joined
+ *         playerId:
+ *           type: string
+ *           description: ID of the player that want to join
+ *         char:
+ *           type: string
+ *           description: ID of the character that the player will use
+ *         walletAddress:
+ *           type: string
+ *           description: Wallet Address of the player
+ *         championshipPoint:
+ *           type: string
+ *           description: Championship Point that the player has
+ *       example:
+ *         tourId: "666"
+ *         playerId: "Asmodeus"
+ *         char: "6"
+ *         walletAddress: "0xBCD69146f2111cDd4e4E586B29322b39963474e0"
+ *         championshipPoint: "666"
+
+ */
+
+
+ /**
+  * @swagger
+  * tags:
+  *   name: Test
+  *   description: Testing API
+  */
+
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: test api
+ *     tags: [Test]
+ *     responses:
+ *       200:
+ *         description: The test was successfully response "Test"
+ *         content:
+ *           application/json:
+ *             schema:
+ *       500:
+ *         description: Some server error
+ */
+
+app.get("/", (req,res) => {
+    res.json("Test")
+})
+
+/**
+ * @swagger
+ * /sendReward:
+ *   post:
+ *     summary: send reward to winner
+ *     tags: [Send Reward]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Send Reward'
+ *     responses:
+ *       200:
+ *         description: The test was successfully response "request body"
+ *         content:
+ *           application/json:
+ *             schema:
+ *       500:
+ *         description: Some server error
+ */
+
+app.post('/sendReward',  (req, res) =>{ 
+    bogBridge.sendToken(req.body, res);
+});
+
+/**
+ * @swagger
+ * /checkJoinRoom:
+ *   post:
+ *     summary: Check if User can join championship room
+ *     tags: [Check Join Room]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Check Join Room'
+ *     responses:
+ *       200:
+ *         description: The test was successfully response "request body"
+ *         content:
+ *           application/json:
+ *             schema:
+ *       500:
+ *         description: Some server error
+ */
+
+app.post('/checkJoinRoom', (req, res) =>{ 
+  console.log(req.body);
+  bogBridge.checkJoinRoom(req.body.transactionHash, res);
+});
+
+
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
+
+app.listen(port, () => {
+    console.log("server start")
+})

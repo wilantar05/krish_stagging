@@ -1,0 +1,35 @@
+{
+  "dependencies": {
+    "axios": "^0.26.1",
+    "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.1",
+    "ethereum-input-data-decoder": "^0.4.1",
+    "express": "^4.17.3",
+    "firebase-admin": "^10.1.0",
+    "fs": "^0.0.1-security",
+    "helmet": "^5.0.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.5.0",
+    "nodemon": "^2.0.15",
+    "qs": "^6.10.3",
+    "swagger-jsdoc": "^6.2.1",
+    "swagger-ui-express": "^4.3.0",
+    "ticks-to-date": "^1.0.3",
+    "web3": "^1.7.1"
+  },
+  "name": "heroku-bog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "engines": {
+    "nodes": "16.13.1"
+  }
+}
